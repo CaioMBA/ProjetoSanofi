@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Data.API;
 using Data.DataBase;
 using Domain.Utils;
+using Data.DataBase.SecurityDAO;
 
 namespace CrossCutting.DependencyInjection
 {
@@ -33,7 +34,7 @@ namespace CrossCutting.DependencyInjection
 
         public static void ConfigureDependenciesService(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IBaseService, BaseService>();
+            serviceCollection.AddTransient<IAuthService, AuthService>();
             /*serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddSingleton<IApiService, ApiService>();*/
         }
@@ -42,6 +43,7 @@ namespace CrossCutting.DependencyInjection
         {
             serviceCollection.AddTransient<ApiDefaultAccess>();
             serviceCollection.AddTransient<DataBaseDefaultAccess>();
+            serviceCollection.AddTransient<JwtDAO>();
 
             //serviceCollection.AddTransient<DefaultSqlServerDao>();
         }

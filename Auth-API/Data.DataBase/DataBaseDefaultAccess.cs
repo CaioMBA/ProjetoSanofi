@@ -31,7 +31,7 @@ namespace Data.DataBase
 
         public IDbConnection conectar(DataBaseConnections bd)
         {
-            if (bd.Type == "SQLSERVER")
+            if (bd.Type == "SQL_SERVER")
             {
                 con = new SqlConnection(bd.ConnectionString);
             }
@@ -110,7 +110,7 @@ namespace Data.DataBase
             }
         }
 
-        public async Task<T?> ExecutaFirstOrDefault<T>(string sQuery, object parametro, DataBaseConnections? conexao)
+        public async Task<T?> ExecutaQueryFirstOrDefault<T>(string sQuery, object? parametro, DataBaseConnections? conexao)
         {
             using (var _DBConnection = conectar(conexao))
             {

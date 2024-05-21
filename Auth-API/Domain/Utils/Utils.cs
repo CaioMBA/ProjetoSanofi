@@ -17,11 +17,24 @@ namespace Domain.Utils
             _AppConfig = AppConfig;
         }
 
+        public AppSettingsModel GetAppSettings()
+        {
+            return _AppConfig;
+        }
+
         public DataBaseConnections GetDataBase(string sDataBaseID)
         {
             DataBaseConnections? sConection = (from v in _AppConfig.DataBaseConnections
                                                where v.DataBaseID == sDataBaseID
                                                select v).FirstOrDefault();
+            return sConection;
+        }
+
+        public ApiConnections GetApi(string sApiID)
+        {
+            ApiConnections? sConection = (from v in _AppConfig.ApiConnections
+                                          where v.ApiID == sApiID
+                                          select v).FirstOrDefault();
             return sConection;
         }
 
