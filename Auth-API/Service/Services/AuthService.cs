@@ -162,7 +162,7 @@ namespace Service.Services
             return new JwtResponseModel()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(Token),
-                Creation = Token.ValidFrom,
+                Creation = DateTime.Now,
                 Expiration = Token.ValidTo,
                 Success = true,
                 Message = "Token generated successfully",
