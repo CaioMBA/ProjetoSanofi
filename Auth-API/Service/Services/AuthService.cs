@@ -60,7 +60,7 @@ namespace Service.Services
             {
                 Success = true,
                 Message = "Token validated successfully",
-                Token = new JwtSecurityTokenHandler().WriteToken(JwtToken),
+                Token = Token,
                 Claims = JwtToken.Claims
             };
         }
@@ -79,6 +79,7 @@ namespace Service.Services
                     Success = false,
                     Message = ex.Message,
                     Token = null,
+                    Creation = null,
                     Expiration = null,
                     UserInfo = null
                 };
@@ -161,6 +162,7 @@ namespace Service.Services
             return new JwtResponseModel()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(Token),
+                Creation = Token.ValidFrom,
                 Expiration = Token.ValidTo,
                 Success = true,
                 Message = "Token generated successfully",

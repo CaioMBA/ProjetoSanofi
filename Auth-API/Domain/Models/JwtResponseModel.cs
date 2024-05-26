@@ -9,6 +9,7 @@ namespace Domain.Models
     public class JwtResponseModel : DefaultResponseModel
     {
         public string? Token { get; set; }
+        public DateTime? Creation { get; set; }
         public DateTime? Expiration { get; set; }
         public UserInfoResponseModel? UserInfo { get; set; }
     }
