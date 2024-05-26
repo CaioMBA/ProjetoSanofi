@@ -1,6 +1,5 @@
 ﻿using Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -21,7 +20,7 @@ namespace App.Controllers
 
         [HttpGet("Auth")]
         public ActionResult Get(
-            [FromHeader, Required(ErrorMessage = "Authorization header must not be blank")] string Authorization
+            [FromHeader, Required(ErrorMessage = "Authorization header is a required field")] string Authorization
             )
         {
             var response = _service.VerifyToken(Authorization);
@@ -37,7 +36,7 @@ namespace App.Controllers
         [AllowAnonymous]
         [HttpPost("Auth")]
         public ActionResult Post(
-            [FromHeader] string Authorization
+            [FromHeader, Required(ErrorMessage = "Authorization header is a required field")] string Authorization
             )
         {
             var response = _service.GenerateToken(Authorization);

@@ -1,14 +1,14 @@
-using Domain.Models.GeneralSettings;
-using Microsoft.Extensions.Options;
 using CrossCutting.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Data.DataBase.SecurityDAO;
 using Data.DataBase;
+using Data.DataBase.SecurityDAO;
+using Domain.Models;
+using Domain.Models.GeneralSettings;
 using Domain.Utils;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +37,71 @@ builder.Services.AddAuthentication(x =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key))
+    };
+
+    x.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            ValidatedJwtResponseModel jwtResponseModel = new ValidatedJwtResponseModel()
+            {
+                Success = false,
+                Message = "",
+                Token = null,
+                Claims = null
+            };
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = 401;
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                context.Response.Headers.Append("Token-Expired", "true");
+                jwtResponseModel.Message = "Token has expired";
+            }
+            else if (context.Exception.GetType() == typeof(SecurityTokenInvalidSignatureException))
+            {
+                jwtResponseModel.Message = "Invalid token signature";
+            }
+            else if (context.Exception.GetType() == typeof(SecurityTokenInvalidIssuerException))
+            {
+                jwtResponseModel.Message = "Invalid token issuer";
+            }
+            else
+            {
+                jwtResponseModel.Message = "Invalid token";
+            }
+            return context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(jwtResponseModel));
+        },
+        OnChallenge = context =>
+        {
+            context.HandleResponse();
+            if (!context.Response.HasStarted)
+            {
+                context.Response.StatusCode = 401;
+                context.Response.ContentType = "application/json";
+                string result = System.Text.Json.JsonSerializer.Serialize(new ValidatedJwtResponseModel()
+                {
+                    Success = false,
+                    Message = "You are not authorized",
+                    Token = null,
+                    Claims = null
+                });
+                return context.Response.WriteAsync(result);
+            }
+            return Task.CompletedTask;
+        },
+        OnForbidden = context =>
+        {
+            context.Response.StatusCode = 403;
+            context.Response.ContentType = "application/json";
+            string result = System.Text.Json.JsonSerializer.Serialize(new ValidatedJwtResponseModel()
+            {
+                Success = false,
+                Message = "You do not have permission to access this resource",
+                Token = null,
+                Claims = null
+            });
+            return context.Response.WriteAsync(result);
+        }
     };
 
     Key = null;

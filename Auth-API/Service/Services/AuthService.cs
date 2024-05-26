@@ -2,7 +2,6 @@
 using Data.DataBase.SecurityDAO;
 using Domain.Interfaces;
 using Domain.Models;
-using Domain.Models.GeneralSettings;
 using Domain.Utils;
 using Microsoft.IdentityModel.Tokens;
 using Service.Extensions;
@@ -46,13 +45,10 @@ namespace Service.Services
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging purposes
-                Console.WriteLine(ex.Message);
-
                 return new ValidatedJwtResponseModel()
                 {
                     Success = false,
-                    Message = "Token not valid",
+                    Message = $"Token not valid, error: {ex.Message}",
                     Token = null,
                     Claims = null
                 };
