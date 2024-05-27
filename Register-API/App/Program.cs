@@ -1,8 +1,8 @@
 using CrossCutting.DependencyInjection;
 using Data.DataBase;
 using Data.DataBase.SecurityDAO;
-using Domain.Models;
 using Domain.Models.GeneralSettings;
+using Domain.Models.Security;
 using Domain.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
@@ -34,7 +34,7 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = AppConfigurations.AppName,
+        ValidIssuer = Issuer,
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,

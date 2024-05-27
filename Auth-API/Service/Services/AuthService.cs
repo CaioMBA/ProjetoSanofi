@@ -27,6 +27,7 @@ namespace Service.Services
         {
             Token = Token.Replace("Bearer ", "");
             string SecretKey = _jwt.GetKey() ?? throw new Exception("Secret key not found");
+            string Issuer = _jwt.GetIssuer() ?? throw new Exception("Issuer not found");
 
             var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
             var TokenHandler = new JwtSecurityTokenHandler();
@@ -36,7 +37,7 @@ namespace Service.Services
                 TokenHandler.ValidateToken(Token, new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = _utils.GetAppSettings().AppName,
+                    ValidIssuer = Issuer,
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
@@ -131,6 +132,7 @@ namespace Service.Services
             List<UserPermissionResponseModel> Permissions = GetUserPermissions(User.UserID);
 
             string SecretKey = _jwt.GetKey() ?? throw new Exception("Secret key not found");
+            string Issuer = _jwt.GetIssuer() ?? throw new Exception("Issuer not found");
 
             var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
             var Credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
@@ -152,7 +154,7 @@ namespace Service.Services
             }
 
             JwtSecurityToken Token = new JwtSecurityToken(
-                issuer: _utils.GetAppSettings().AppName,
+                issuer: Issuer,
                 audience: null,
                 claims: Claims,
                 expires: DateTime.Now.AddMinutes(60),

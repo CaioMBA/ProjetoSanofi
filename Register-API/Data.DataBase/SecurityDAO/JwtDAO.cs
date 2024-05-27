@@ -30,15 +30,5 @@ namespace Data.DataBase.SecurityDAO
         {
             return _db.ExecutaQueryFirstOrDefault<string>($"SELECT TOP 1 [KEY] FROM SecurityKeys WHERE [Type] = 'JWT-ISSUER' and Active = 1;", null, _con).Result;
         }
-
-        public UserInfoResponseModel? GetInfo(string Login, string Password)
-        {
-            return _db.ExecutaQueryFirstOrDefault<UserInfoResponseModel>($"SELECT TOP 1 UserID, Name, Login, DateCreation, Active FROM Users WHERE Login = '{Login}' AND Password = '{Password}'", null, _con).Result;
-        }
-
-        public List<UserPermissionResponseModel>? GetPermisions(long UserId)
-        {
-            return _db.ExecutaProc<UserPermissionResponseModel>("spr_api_auth_user_permissions", new { UserID = UserId }, _con).Result;
-        }
     }
 }
