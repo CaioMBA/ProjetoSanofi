@@ -23,6 +23,7 @@ namespace App.Controllers
             [FromHeader, Required(ErrorMessage = "Authorization header is a required field")] string Authorization
             )
         {
+            // This is just to verify the versions
             var response = _service.VerifyToken(Authorization);
 
             if (!response.Success)
