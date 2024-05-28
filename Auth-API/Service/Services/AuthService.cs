@@ -103,7 +103,7 @@ namespace Service.Services
             }
 
             string Login = AuthArray[0];
-            string Password = AuthArray[1];
+            string Password = AuthArray[1].ToSHA256();
 
             var UserInformation = _jwt.GetInfo(Login, Password);
 
