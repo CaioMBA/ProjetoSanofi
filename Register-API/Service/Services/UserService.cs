@@ -202,5 +202,49 @@ namespace Service.Services
             return response;
         }
 
+        public DefaultResponseModel Alter(AlterUserRequestModel request)
+        {
+            if (!String.IsNullOrEmpty(request.Document) && !ValidateCNPJ(request.Document) && !ValidateCPF(request.Document))
+            {
+                return new DefaultResponseModel()
+                {
+                    Success = false,
+                    Message = "|Invalid Document|"
+                };
+            }
+            if (!String.IsNullOrEmpty(request.Email) && !ValidateEmail(request.Email))
+            {
+                return new DefaultResponseModel()
+                {
+                    Success = false,
+                    Message = "|Invalid Email|"
+                };
+            }
+            if (!String.IsNullOrEmpty(request.Phone))
+            {
+                if (!ValidatePhone(request.Phone))
+                {
+                    return new DefaultResponseModel()
+                    {
+                        Success = false,
+                        Message = "|Invalid Phone|"
+                    };
+                }
+                request.Phone = Regex.Replace(request.Phone, @"[()\-\s]", "");
+            }
+
+            var response = _dao.Alter(request);
+
+            if (response == null)
+            {
+                return new DefaultResponseModel
+                {
+                    Success = false,
+                    Message = "|Error altering user|"
+                };
+            }
+            return response;
+        }
+
     }
 }

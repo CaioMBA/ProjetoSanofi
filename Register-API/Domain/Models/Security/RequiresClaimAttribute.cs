@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 
 namespace Domain.Models.Security
@@ -21,6 +22,11 @@ namespace Domain.Models.Security
             {
                 context.Result = new ForbidResult();
             }
+
+            context.HttpContext.Request.Headers.TryGetValue("Authorization", out var StringToken);
+            var token = new JwtSecurityTokenHandler().ReadJwtToken(StringToken.ToString().Replace("Bearer ", ""));
+
+            context.HttpContext.Request.Headers["UserID"] = token.Claims.First(c => c.Type == "UserID").Value;
         }
 
         public void OnException(ExceptionContext context)

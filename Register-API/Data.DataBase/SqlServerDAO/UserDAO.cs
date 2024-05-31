@@ -21,5 +21,10 @@ namespace Data.DataBase.SqlServerDAO
             return _db.ExecutaProcFirstOrDefault<DefaultResponseModel>($"spr_api_register_create_user", request, _con).Result;
         }
 
+        public DefaultResponseModel? Alter(AlterUserRequestModel request)
+        {
+            return _db.ExecutaProcFirstOrDefault<DefaultResponseModel>($"spr_api_register_alter_user", request, _con).Result;
+        }
+
     }
 }
