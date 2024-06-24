@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:sanofi_app/Domain/Settings/GlobalSchematics.dart';
 
+import '../Components/Widgets/CommonBorderRoundedButton.dart';
+import '../Components/Widgets/CommonTextInput.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -29,15 +32,15 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
-                mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment:  MainAxisAlignment.center,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.25,
                   height: MediaQuery.of(context).size.height * 0.6,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 5,
+                  margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.03,
+                    vertical: MediaQuery.of(context).size.height * 0.005,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -52,8 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: Column(
                     children: [
-                      Image.asset('Images/Sanofi_Logo_Nome.png', width: MediaQuery.of(context).size.width * 0.1),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.008),
+                      Image.asset('Images/Sanofi_Logo_Nome.png', width: MediaQuery.of(context).size.width * 0.15),
                       Text(
                         'Micro Managment System',
                         style: TextStyle(
@@ -61,13 +63,40 @@ class _LoginPageState extends State<LoginPage> {
                           color: GlobalSchematics().primaryColor,
                         ),
                       ),
-                      const Text(
-                        textAlign: TextAlign.left,
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(width: MediaQuery.of(context).size.width * 0.005),
+                          const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),],
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      CommonTextInput(
+                        labelText: 'Usúario',
+                        hintText: 'Digite seu Usuario',
+                        inputType: 'TEXT',
+                        controller: TextEditingController(),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                      CommonTextInput(
+                        labelText: 'Senha',
+                        hintText: 'Digite sua senha',
+                        inputType: 'TEXT',
+                        isPassword: true,
+                        controller: TextEditingController(),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                      CommonBorderRoundedButton(
+                        text: 'Entrar',
+                        onTap: () {
+                          Navigator.pushNamed(context, '/home');
+                        },
                       ),
                     ],
                   ),
@@ -76,13 +105,16 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50)
+                borderRadius: BorderRadius.circular(20)
               ),
-              width: MediaQuery.of(context).size.width * 0.45,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: const Image(
-                image: AssetImage('Images/MainImage.jpg'),
-                fit: BoxFit.contain
+              height: MediaQuery.of(context).size.height * 0.98,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.9,
+                width: MediaQuery.of(context).size.width * 0.35,
+                child: const Image(
+                  image: AssetImage('Images/MainImage.jpg'),
+                  fit: BoxFit.fill,
+                ),
               ),
             )
           ],
