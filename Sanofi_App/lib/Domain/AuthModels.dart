@@ -7,16 +7,24 @@ class AuthTokenResponse extends DefaultApiResponseModel{
   final DateTime? expiration;
   final UserInfo? userInfo;
 
-  AuthTokenResponse({this.token, this.creation, this.expiration, this.userInfo, required super.success, required super.message});
+  AuthTokenResponse({this.token, this.creation, this.expiration, this.userInfo, required super.success, super.message});
 
   factory AuthTokenResponse.fromJson(Map<String, dynamic> json) {
+    final UserInfo? userInfo;
+    if (json['userInfo'] == null){
+      userInfo = null;
+    }
+    else{
+      userInfo = UserInfo.fromJson(json['userInfo']);
+    }
+
     return AuthTokenResponse(
-      token: json['token'],
-      creation: json['creation'],
-      expiration: json['expiration'],
-      userInfo: UserInfo.fromJson(json['userInfo']),
+      token: json['token'].toString(),
+      creation: DateTime.parse(json['creation']),
+      expiration: DateTime.parse(json['expiration']),
+      userInfo: userInfo,
       success: json['success'],
-      message: json['message']
+      message: json['message']?.toString() ?? '',
     );
   }
 }

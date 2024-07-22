@@ -33,5 +33,5 @@ Future<ApiResponse> apiRequest( String type,
   request.headers.addAll(headers);
   final streamedResponse = await http.Client().send(request);
   final http.Response response = await http.Response.fromStream(streamedResponse);
-  return ApiResponse(statusCode: response.statusCode, responseBody: utf8.decode(response.bodyBytes));
+  return ApiResponse(statusCode: response.statusCode, Body: utf8.decode(response.bodyBytes));
 }

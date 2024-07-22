@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class DefaultApiResponseModel{
-  final String message;
+  final String? message;
   final bool success;
-  DefaultApiResponseModel({required this.success, required this.message});
+  DefaultApiResponseModel({required this.success, this.message});
 
   static DefaultApiResponseModel fromJson(Map<String, dynamic> json){
     return DefaultApiResponseModel(

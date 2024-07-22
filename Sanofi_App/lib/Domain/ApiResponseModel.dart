@@ -1,7 +1,7 @@
 class ApiResponse{
   final int statusCode;
-  final String responseBody;
+  final String Body;
   final String? message;
 
-  ApiResponse({required this.statusCode, required this.responseBody, this.message});
+  ApiResponse({required this.statusCode, required this.Body, this.message});
 }

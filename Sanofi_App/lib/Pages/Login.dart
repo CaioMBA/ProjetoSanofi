@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:sanofi_app/Components/Widgets/CommonAlertBox.dart';
 import 'package:sanofi_app/Domain/Settings/GlobalSchematics.dart';
+import 'package:sanofi_app/Services/LoginServices.dart';
 
 import '../Components/Widgets/CommonBorderRoundedButton.dart';
 import '../Components/Widgets/CommonTextInput.dart';
+import 'Home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,6 +19,34 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _userController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+
+    submit() async {
+      if (_userController.text.isEmpty || _passwordController.text.isEmpty){
+        return showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return const CommonAlertBox(message: 'Preencha todos os campos', type: 'error',);
+          }
+        );
+      }
+
+      final response = await Login().login(_userController.text, _passwordController.text);
+      if (response){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
+        return;
+      }
+      return showDialog(
+          context: context,
+          builder: (BuildContext context){
+          return const CommonAlertBox(message: 'Credenciais inválidas', type: 'error',);
+      });
+    }
+
+
+
     return Scaffold(
       backgroundColor: GlobalSchematics().whiteColor,
       body: Container(
@@ -81,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: 'Usúario',
                         hintText: 'Digite seu Usuario',
                         inputType: 'TEXT',
-                        controller: TextEditingController(),
+                        controller: _userController,
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.015),
                       CommonTextInput(
@@ -89,14 +120,12 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: 'Digite sua senha',
                         inputType: 'TEXT',
                         isPassword: true,
-                        controller: TextEditingController(),
+                        controller: _passwordController,
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                       CommonBorderRoundedButton(
                         text: 'Entrar',
-                        onTap: () {
-                          Navigator.pushNamed(context, '/home');
-                        },
+                        onTap: submit,
                       ),
                     ],
                   ),

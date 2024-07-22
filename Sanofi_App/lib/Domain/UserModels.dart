@@ -12,7 +12,7 @@ class UserInfo{
             userID: json['userID'],
             name: json['name'],
             login: json['login'],
-            dateCreation: json['dateCreation'],
+            dateCreation: DateTime.parse(json['dateCreation']),
             active: json['active']
         );
     }

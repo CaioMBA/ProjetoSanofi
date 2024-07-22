@@ -12,7 +12,7 @@ class AuthDao{
     };
 
     final ApiResponse response = await apiRequest('POST', 'http://maincaitoserver.ddns.net:7000/api/Authorization/Auth', headers, null, null);
-    final AuthTokenResponse authTokenResponse = AuthTokenResponse.fromJson(jsonDecode(response.responseBody));
+    final AuthTokenResponse authTokenResponse = AuthTokenResponse.fromJson(jsonDecode(response.Body));
     return authTokenResponse;
   }
 }
