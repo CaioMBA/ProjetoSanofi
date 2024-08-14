@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sanofi_app/Components/Widgets/CommonAlertBox.dart';
 import 'package:sanofi_app/Domain/Settings/GlobalSchematics.dart';
 import 'package:sanofi_app/Services/LoginServices.dart';
@@ -8,6 +7,7 @@ import 'package:sanofi_app/Services/LoginServices.dart';
 import '../Components/Widgets/CommonBorderRoundedButton.dart';
 import '../Components/Widgets/CommonTextInput.dart';
 import 'Home.dart';
+import 'Register.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,11 +19,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _userController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController userController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     submit() async {
-      if (_userController.text.isEmpty || _passwordController.text.isEmpty){
+      if (userController.text.isEmpty || passwordController.text.isEmpty){
         return showDialog(
           context: context,
           builder: (BuildContext context){
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
 
-      final response = await Login().login(_userController.text, _passwordController.text);
+      final response = await Login().login(userController.text, passwordController.text);
       if (response){
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const HomePage()));
@@ -54,6 +54,13 @@ class _LoginPageState extends State<LoginPage> {
         margin: const EdgeInsets.all(20),
         decoration:  BoxDecoration(
           borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.8),
+                spreadRadius: 5,
+                blurRadius: 7,
+              )
+            ],
           image: const DecorationImage(
             image: AssetImage('/Images/Background_Image.jpg'),
             fit: BoxFit.cover
@@ -91,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Micro Managment System',
                         style: TextStyle(
                           fontSize: 14,
+                          fontFamily: GoogleFonts.kadwa().fontFamily,
                           color: GlobalSchematics().primaryColor,
                         ),
                       ),
@@ -99,10 +107,11 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(width: MediaQuery.of(context).size.width * 0.005),
-                          const Text(
+                          Text(
                             'Login',
                             style: TextStyle(
                               fontSize: 20,
+                              fontFamily: GoogleFonts.kadwa().fontFamily,
                               fontWeight: FontWeight.bold,
                             ),
                           ),],
@@ -112,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: 'Usúario',
                         hintText: 'Digite seu Usuario',
                         inputType: 'TEXT',
-                        controller: _userController,
+                        controller: userController,
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.015),
                       CommonTextInput(
@@ -120,12 +129,29 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: 'Digite sua senha',
                         inputType: 'TEXT',
                         isPassword: true,
-                        controller: _passwordController,
+                        controller: passwordController,
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                       CommonBorderRoundedButton(
                         text: 'Entrar',
                         onTap: submit,
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                      TextButton(
+                          onPressed: (){
+                            Navigator.pushReplacement(
+                                context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+                          },
+                          child: Text(
+                              'Não tem um ID Sanofi? Crie o seu agora',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: GoogleFonts.kadwa().fontFamily,
+                              fontSize: 14,
+                              decoration: TextDecoration.underline,
+                            ),
+                          )
                       ),
                     ],
                   ),

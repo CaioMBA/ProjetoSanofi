@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sanofi_app/Domain/Settings/GlobalSchematics.dart';
 
 class CommonBorderRoundedButton extends StatelessWidget {
@@ -41,6 +42,7 @@ class CommonBorderRoundedButton extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontFamily: GoogleFonts.kadwa().fontFamily,
                         fontSize: (fontSize ?? 25),),
                   ),
                   icon ?? Container()

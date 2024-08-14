@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sanofi_app/Components/Widgets/CommonBorderRoundedButton.dart';
 import 'package:sanofi_app/Domain/Settings/Extensions/StringExtensions.dart';
 import 'package:sanofi_app/Domain/Settings/GlobalSchematics.dart';
@@ -67,17 +68,19 @@ class CommonAlertBox extends StatelessWidget {
                 children: [
                   Text(
                     '$type !'.toLowerCase().capitalize(),
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
                         fontSize: 25,
+                        fontFamily: GoogleFonts.kadwa().fontFamily,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     message,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
+                        fontFamily: GoogleFonts.kadwa().fontFamily,
                         fontWeight: FontWeight.bold),
                   ),
                   CommonBorderRoundedButton(
